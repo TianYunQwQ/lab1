@@ -1,0 +1,30 @@
+(* Starting file for the server *)
+
+import lists
+import declassifyutil
+import stdio
+
+let fun server db_profile db_agent_pid = (* TODO: finish this *)
+         let 
+          val data = receive [hn ("NEWPROFILE", data )
+                                => data]
+          val (profile,agent,pid) = data
+          val _ = print data
+          val _ = print(map agent [1])
+         in 
+          server (profile::db_profile) ((agent,pid)::db_agent_pid)
+         end
+
+
+    (* Our main function starts the server and then requests the
+       dispatcher to send some clients this way. *)
+
+    fun main () =       
+        let val thisNode = node (self ())
+            val _ = printString ("Running node with identifier: " ^ thisNode)
+            val _ =  register ("datingServer", spawn (fn() => server [][]), authority)
+        in  
+            ()
+        end
+in main ()
+end
