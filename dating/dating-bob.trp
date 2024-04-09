@@ -1,0 +1,20 @@
+(* Placeholder for the dating-client. Note that in order to communicate 
+   with your server you will need to create the corresponding trustmap *)
+   
+import stdio
+import lists
+import declassifyutil
+
+let fun clientBob serverid =
+      let 
+         val data1 = ("NICE, I AM Bob",1223,self())
+         
+         fun agent x = x+20
+
+         val _ = send(serverid,("NEWPROFILE",("PROFILE",agent,self())))
+         val _ = print "SENT"
+      in ()
+      end
+   val serverid = whereis("QmNzXPVyMYojkfP8JjVqwy4NWbqYyovThEk3bkK4t4Ny6a","datingServer")
+in spawn (fn() => clientBob serverid)
+end
