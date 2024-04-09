@@ -22,7 +22,7 @@ let fun server db = (* TODO: finish this *)
     fun main () =       
         let val thisNode = node (self ())
             val _ = printString ("Running node with identifier: " ^ thisNode)
-            val _ =  register ("datingServer", spawn (fn() => server [][]), authority)
+            val _ =  register ("datingServer", spawn (fn() => server []), authority)
         in  
             ()
         end
