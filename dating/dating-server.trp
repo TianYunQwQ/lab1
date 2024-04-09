@@ -4,7 +4,7 @@ import lists
 import declassifyutil
 import stdio
 
-let fun server db_profile db_agent_pid = (* TODO: finish this *)
+let fun server db = (* TODO: finish this *)
          let 
           val data = receive [hn ("NEWPROFILE", data )
                                 => data]
@@ -12,7 +12,7 @@ let fun server db_profile db_agent_pid = (* TODO: finish this *)
           val _ = print data
           val _ = print(map agent [1])
          in 
-          server (profile::db_profile) ((agent,pid)::db_agent_pid)
+          server (data::db)
          end
 
 
