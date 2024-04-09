@@ -24,8 +24,10 @@ let
                 let pini authority
                     val _ = print "MATCH!!!!"
                     val _ = printWithLabels(b_for_a)
-                    val _ = send (pid_a,("NEWMATCH",b_for_a))
-                    val _ = send (pid_b,("NEWMATCH",a_for_b))
+                    val dec_bfa = declassifydeep(b_for_a,authority,`{}`)
+                    val dec_afb = declassifydeep(a_for_b,authority,`{}`)
+                    val _ = send (pid_a,("NEWMATCH",dec_bfa))
+                    val _ = send (pid_b,("NEWMATCH",dec_afb))
                 in()
                 end
                 else() 

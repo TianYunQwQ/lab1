@@ -35,7 +35,7 @@ let
          val _ = printWithLabels(test)
          *)
          val _ = print "SENT"
-      in ()
+      in loop()
       end
    val serverid = whereis("QmNzXPVyMYojkfP8JjVqwy4NWbqYyovThEk3bkK4t4Ny6a","datingServer")
 in spawn (fn() => clientBob serverid)
