@@ -4,13 +4,40 @@ import lists
 import declassifyutil
 import stdio
 
-let fun server db = (* TODO: finish this *)
+let 
+    fun matchprofile data_a data_b =
+        let pini authority
+            val _ = print "HI"
+            val (profile_a,agent_a,pid_a) = data_a
+            val (profile_b,agent_b,pid_b) = data_b
+            val result_a = agent_a profile_b
+            val result_b = agent_b profile_a
+            val (preference_a, a_for_b) = result_a
+            val (preference_b, b_for_a) = result_b
+
+            val _ = if preference_a then
+                let
+                    val _ = if preference_b then
+                    let
+                        val _ = print "MATCH!!!!"
+                        val _ = send (pid_a,("NEWMATCH",b_for_a))
+                        val _ = send (pid_b,("NEWMATCH",a_for_b))
+                    in()
+                    end
+                    else()
+                in()
+                end
+                else ()
+        in ()
+        end    
+
+    fun server db = (* TODO: finish this *)
          let 
           val data = receive [hn ("NEWPROFILE", data )
                                 => data]
           val (profile,agent,pid) = data
           val _ = print data
-          val _ = print(map agent [1])
+          val _ = map (matchprofile data) db
          in 
           server (data::db)
          end
@@ -24,6 +51,7 @@ let fun server db = (* TODO: finish this *)
             val _ = printString ("Running node with identifier: " ^ thisNode)
             val _ =  register ("datingServer", spawn (fn() => server []), authority)
         in  
+            send (whereis ("@dispatcher", "dispatcher"), ("DISPATCH", thisNode)); 
             ()
         end
 in main ()
