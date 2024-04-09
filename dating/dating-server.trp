@@ -23,6 +23,7 @@ let
             val _ = if newflag then
                 let pini authority
                     val _ = print "MATCH!!!!"
+                    val _ = printWithLabels(b_for_a)
                     val _ = send (pid_a,("NEWMATCH",b_for_a))
                     val _ = send (pid_b,("NEWMATCH",a_for_b))
                 in()

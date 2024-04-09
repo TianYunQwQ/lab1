@@ -5,13 +5,35 @@ import stdio
 import lists
 import declassifyutil
 
-let fun clientAlice serverid =
+let 
+    fun loop () =
+                let  val _ = print "Waiting for response..."
+                    val newResponse = receive [hn ("NEWMATCH", newResponse) => newResponse]
+                    val _ = print(newResponse)
+                in loop ()
+                end
+    fun agent profile_b = 
       let 
-         val data1 = ("NICE, I AM ALICE",1223,self())
+        (*val decprofile = declassifydeep(profile_b, authority, `{}`)*)
+        val preference = true raisedTo `{alice}`
+        val maybeProfile = profile_b raisedTo `{alice}`
+      in 
+        (preference,maybeProfile)
+      end
+    fun clientAlice serverid =
+      let 
+         val lev = `{alice}`
+         val name = "Alice" raisedTo lev
+         val year = 2002 raisedTo lev
+         val gender = true raisedTo lev
+         val interests = ["wine","summer"] raisedTo lev
+         val profile = (lev,name,year,gender,interests)
+         val test = agent profile
+         val _ = send(serverid,("NEWPROFILE",(profile,agent,self())))
          
-         fun agent x = x+20
-
-         val _ = send(serverid,("NEWPROFILE",("PROFILE",agent,self())))
+         (*val _ = printWithLabels(profile)
+         val _ = printWithLabels(test)
+         *)
          val _ = print "SENT"
       in ()
       end
