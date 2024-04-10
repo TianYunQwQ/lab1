@@ -28,9 +28,6 @@ let
 
         val maybeProfile =  if gender_b then ()
           else (profile raisedTo lev_b)
-
-        val preference = true raisedTo lev_b
-        val maybeProfile = profile raisedTo lev_b
       in 
         (preference,maybeProfile)
       end
