@@ -15,17 +15,12 @@ let
             val result_b = agent_b profile_a
             val (preference_a, a_for_b) = result_a
             val (preference_b, b_for_a) = result_b
-            val (lev_a,_,_,_,_) = profile_a
-            val (lev_b,_,_,_,_) = profile_b
             val flag = preference_a andalso preference_b
             val newflag = declassifydeep(flag,authority,`{}`)
 
             val _ = if newflag then
                 let pini authority
                     val _ = print "MATCH!!!!"
-                    (*val _ = printWithLabels(b_for_a)*)
-                    (*val dec_bfa = declassifydeep(b_for_a,authority,`{}`)
-                    val dec_afb = declassifydeep(a_for_b,authority,`{}`)*)
                     val _ = send (pid_a,("NEWMATCH",b_for_a))
                     val _ = send (pid_b,("NEWMATCH",a_for_b))
                 in()

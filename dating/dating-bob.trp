@@ -40,10 +40,7 @@ let
          val profile = (lev,name,year,gender,interests)
          val test = agent profile
          val _ = send(serverid,("NEWPROFILE",(profile,agent,self())))
-         
-         (*val _ = printWithLabels(profile)
-         val _ = printWithLabels(test)
-         *)
+
          val _ = print "SENT"
       in loop()
       end

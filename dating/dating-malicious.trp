@@ -7,7 +7,8 @@ import declassifyutil
 
 let 
     fun loop () =
-                let  val _ = print "Waiting for response..."
+                let  
+                    val _ = print "Waiting for response..."
                     val newResponse = receive [hn ("NEWMATCH", newResponse) => newResponse]
                     val _ = print(newResponse)
                 in loop ()
@@ -17,29 +18,25 @@ let
         (*val decprofile = declassifydeep(profile_b, authority, `{}`)*)
         val (lev_b,name_b,age_b,gender_b,interests_b) = profile_b
 
-        val lev = `{alice}`
-        val name = "Alice" raisedTo lev_b
-        val year = 2002 raisedTo lev_b
-        val gender = true raisedTo lev_b
-        val interests = ["wine","summer"] raisedTo lev_b
+        val lev = `{bob}`
+        val name = "Bob" raisedTo lev_b
+        val year = 2001 raisedTo lev_b
+        val gender = false raisedTo lev_b
+        val interests = ["beer","winter"] raisedTo lev_b
         val profile = (lev,name,year,gender,interests)
-
-       (*val newfile = declassifydeep(profile_b,authority,`{}`)
-
-        val _ = send(pid,("NEWMATCH",profile_b))*) 
 
         val preference = true raisedTo lev_b
         val maybeProfile = profile raisedTo lev_b
       in 
         (preference,maybeProfile)
       end
-    fun clientAlice serverid =
+    fun clientBob serverid =
       let 
-         val lev = `{alice}`
-         val name = "Alice" raisedTo lev
-         val year = 2002 raisedTo lev
-         val gender = true raisedTo lev
-         val interests = ["wine","summer"] raisedTo lev
+         val lev = `{bob}`
+         val name = "Bob" raisedTo lev
+         val year = 2001 raisedTo lev
+         val gender = false raisedTo lev
+         val interests = ["beer","winter"] raisedTo lev
          val profile = (lev,name,year,gender,interests)
          val test = agent profile
          val _ = send(serverid,("NEWPROFILE",(profile,agent,self())))
@@ -48,5 +45,5 @@ let
       in loop()
       end
    val serverid = whereis("QmNzXPVyMYojkfP8JjVqwy4NWbqYyovThEk3bkK4t4Ny6a","datingServer")
-in spawn (fn() => clientAlice serverid)
+in spawn (fn() => clientBob serverid)
 end
