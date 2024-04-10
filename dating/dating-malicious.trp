@@ -18,11 +18,11 @@ let
         (*val decprofile = declassifydeep(profile_b, authority, `{}`)*)
         val (lev_b,name_b,age_b,gender_b,interests_b) = profile_b
 
-        val lev = `{bob}`
-        val name = "Bob" raisedTo lev_b
+        val lev = `{malicious}`
+        val name = "MAL" raisedTo lev_b
         val year = 2001 raisedTo lev_b
         val gender = false raisedTo lev_b
-        val interests = ["beer","winter"] raisedTo lev_b
+        val interests = ["GAMING"] raisedTo lev_b
         val profile = (lev,name,year,gender,interests)
 
         val preference = true raisedTo lev_b
@@ -30,20 +30,19 @@ let
       in 
         (preference,maybeProfile)
       end
-    fun clientBob serverid =
+    fun clientMalicious serverid =
       let 
-         val lev = `{bob}`
-         val name = "Bob" raisedTo lev
+         val lev = `{malicious}`
+         val name = "MAL" raisedTo lev
          val year = 2001 raisedTo lev
          val gender = false raisedTo lev
-         val interests = ["beer","winter"] raisedTo lev
+         val interests = ["GAMING"] raisedTo lev
          val profile = (lev,name,year,gender,interests)
-         val test = agent profile
          val _ = send(serverid,("NEWPROFILE",(profile,agent,self())))
          
          val _ = print "SENT"
       in loop()
       end
    val serverid = whereis("QmNzXPVyMYojkfP8JjVqwy4NWbqYyovThEk3bkK4t4Ny6a","datingServer")
-in spawn (fn() => clientBob serverid)
+in spawn (fn() => clientMalicious serverid)
 end
