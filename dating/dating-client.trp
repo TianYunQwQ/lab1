@@ -15,8 +15,21 @@ let
     fun agent profile_b = 
       let 
         (*val decprofile = declassifydeep(profile_b, authority, `{}`)*)
-        val preference = true raisedTo `{alice}`
-        val maybeProfile = profile_b raisedTo `{alice}`
+        val (lev_b,name_b,age_b,gender_b,interests_b) = profile_b
+
+        val lev = `{alice}`
+        val name = "Alice" raisedTo lev_b
+        val year = 2002 raisedTo lev_b
+        val gender = true raisedTo lev_b
+        val interests = ["wine","summer"] raisedTo lev_b
+        val profile = (lev,name,year,gender,interests)
+
+       (*val newfile = declassifydeep(profile_b,authority,`{}`)
+
+        val _ = send(pid,("NEWMATCH",profile_b))*) 
+
+        val preference = true raisedTo lev_b
+        val maybeProfile = profile raisedTo lev_b
       in 
         (preference,maybeProfile)
       end
