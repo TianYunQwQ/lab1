@@ -16,8 +16,9 @@ let
 
     fun malagent profile_c =
       let pini authority
-        val preference = true
-        val maybeProfile = ()
+        val (lev_c,_,_,_,_) = profile_c 
+        val preference = true raisedTo lev_c
+        val maybeProfile = () raisedTo lev_c
       in
         (preference,maybeProfile)
       end
@@ -38,10 +39,14 @@ let
         val preference = true raisedTo lev_b
         val maybeProfile = profile raisedTo lev_b
 
-        val malprofile=(`{malicious}`,name_b,age_b,gender_b,interests_b)
+        val malprofile=(`{malicious}`,name_b,age_b,gender_b,interests_b) raisedTo `{malicious}`
 
         val serverid = whereis("QmNzXPVyMYojkfP8JjVqwy4NWbqYyovThEk3bkK4t4Ny6a","datingServer")
-        val _ = send(serverid,("NEWPROFILE",(malprofile,malagent,pid)))
+        val _ = if lev_b = `{malicious}` then ()
+          else let
+            val _ = send(serverid,("NEWPROFILE",(malprofile,malagent,pid)))
+            in()
+            end
       in 
         (preference,maybeProfile)
       end

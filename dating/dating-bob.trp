@@ -20,16 +20,16 @@ let
         val (lev_b,name_b,age_b,gender_b,interests_b) = profile_b
 
         val lev = `{bob}`
-        val name = "Bob" raisedTo lev_b
-        val year = 2001 raisedTo lev_b
-        val gender = false raisedTo lev_b
-        val interests = ["beer","winter"] raisedTo lev_b
+        val name = "Bob" 
+        val year = 2001
+        val gender = false
+        val interests = ["beer","winter"]
         val profile = (lev,name,year,gender,interests)
 
         val preference = if gender_b then (true raisedTo lev_b)
         else (false raisedTo lev_b)
 
-        val maybeProfile =  if gender_b then 
+        val maybeProfile =  if preference then 
           (profile raisedTo lev_b)
           else ()
          
@@ -46,7 +46,6 @@ let
          val interests = ["beer","winter"] raisedTo lev
          val profile = (lev,name,year,gender,interests)
          val _ = send(serverid,("NEWPROFILE",(profile,agent,self())))
-         val _ =printWithLabels (profile)
          val _ = print "SENT"
       in loop()
       end
