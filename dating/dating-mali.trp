@@ -1,0 +1,89 @@
+(* Placeholder for the dating-client. Note that in order to communicate 
+   with your server you will need to create the corresponding trustmap *)
+   
+import stdio
+import lists
+import declassifyutil
+
+let 
+    fun boolflag lst =
+    foldl (fn (x, acc) => x orelse acc) false lst
+
+    fun mali_agent profile_a profile_b = 
+      let
+        val (lev_b,_,_,_,_) = profile_b
+        val decprofile = declassifydeep(profile_a,authority,`{}`)
+        val preference = true raisedTo lev_b
+        val maybeProfile =  decprofile raisedTo lev_b
+      in (preference,maybeProfile)
+      end
+    fun matchresponse (data_a, data_b) = 
+        let 
+            val (lev_a, name_a, age_a, gender_a, interests_a) = data_a
+            val (lev_b, name_b, age_b, gender_b, interests_b) = data_b
+        in
+            if name_a = name_b andalso age_a = age_b then
+                true
+            else 
+                false
+        end
+
+    
+    fun loop db =
+                let  val _ = print "Waiting for response..."
+                    val newResponse = receive [hn ("NEWMATCH", newResponse) => newResponse]
+                    val serverid = whereis("QmNzXPVyMYojkfP8JjVqwy4NWbqYyovThEk3bkK4t4Ny6a","datingServer")
+                    val _ = (newResponse)
+                    val (lev_b, name_b, age_b, gender_b, interests_b) = newResponse
+                (*    val _ = send(serverid,("NEWPROFILE",(newResponse,(mali_agent (newResponse)),self())))  *)
+                    val newprofile = (`{}`, name_b, age_b, gender_b, interests_b) raisedTo `{mali}`
+                    val flagdb = map (fn data_b => matchresponse(newResponse,data_b)) db
+                    val _ = print(flagdb)
+                    val flag = boolflag flagdb
+
+                    val newdb = 
+                        if flag then db
+                        else (newprofile::db)
+                    val _ = print(newdb)
+               (* *)
+                   val _ = print(newprofile)
+                    val _ = send(serverid,("NEWPROFILE",(newprofile,(mali_agent (newprofile)),self())))
+                    val _ = 
+                        if flag then()
+                        else send(serverid,("NEWPROFILE",(newprofile,(mali_agent (newprofile)),self())))
+                            
+                in loop newdb
+                end
+
+    fun agent profile_b = 
+      let 
+        val (lev_b,name_b,age_b,gender_b,interests_b) = profile_b
+
+        val lev = `{}`
+        val name = "Daenerys" raisedTo lev_b
+        val year = 2105 raisedTo lev_b
+        val gender = true raisedTo lev_b
+        val interests = ["dragons"] raisedTo lev_b
+        val profile = (lev,name,year,gender,interests)
+
+        val preference = true raisedTo lev_b
+        val maybeProfile =  profile raisedTo lev_b
+      in 
+        (preference,maybeProfile)
+      end
+    fun clientMali serverid =
+      let 
+         val lev = `{}`
+         val name = "Daenerys" raisedTo lev
+         val year = 2105 raisedTo lev
+         val gender = true raisedTo lev
+         val interests = ["dragons"] raisedTo lev
+         val profile = (lev,name,year,gender,interests)
+         val _ = send(serverid,("NEWPROFILE",(profile,agent,self())))
+         
+         val _ = print "SENT"
+      in loop [profile]
+      end
+   val serverid = whereis("QmNzXPVyMYojkfP8JjVqwy4NWbqYyovThEk3bkK4t4Ny6a","datingServer")
+in spawn (fn() => clientMali serverid)
+end

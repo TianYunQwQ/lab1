@@ -10,11 +10,7 @@ let
             val (profile_a,agent_a,pid_a) = data_a 
             val (profile_b,agent_b,pid_b) = data_b
             val result_a = agent_a profile_b
-            val _ = print "AA"
-            val _ = print profile_a
-            val _ = printWithLabels result_a
             val result_b = agent_b profile_a
-            val _ = printWithLabels result_b
             val (preference_a, a_for_b) = result_a
             val (preference_b, b_for_a) = result_b
             val flag = preference_a andalso preference_b
