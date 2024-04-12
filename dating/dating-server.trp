@@ -49,7 +49,7 @@ let
             val _ = printString ("Running node with identifier: " ^ thisNode)
             val _ =  register ("datingServer", spawn (fn() => server []), authority)
         in  
-            (*send (whereis ("@dispatcher", "dispatcher"), ("DISPATCH", thisNode));*)
+            send (whereis ("@dispatcher", "dispatcher"), ("DISPATCH", thisNode));
             ()
         end
 in main ()

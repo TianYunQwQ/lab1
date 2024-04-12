@@ -1,0 +1,53 @@
+(* Placeholder for the dating-client. Note that in order to communicate 
+   with your server you will need to create the corresponding trustmap *)
+   
+import stdio
+import lists
+import declassifyutil
+
+let 
+    fun loop () =
+                let  
+                    val _ = print "Waiting for response..."
+                    val newResponse = receive [hn ("NEWMATCH", newResponse) => newResponse]
+                    val _ = print(newResponse)
+                in loop ()
+                end
+
+    fun agent profile_b = 
+      let 
+        val (lev_b,name_b,age_b,gender_b,interests_b) = profile_b
+
+        val lev = `{clark}`
+        val name = "Clark" 
+        val year = 2105
+        val gender = true
+        val interests = ["dragons", "wars", "fire"]
+        val profile = (lev,name,year,gender,interests)
+
+        val preference = if (name_b = "Daenerys" orelse name_b = "Alice") then (true raisedTo lev_b)
+        else (false raisedTo lev_b)
+
+        val maybeProfile =  if preference then 
+          (profile raisedTo lev_b)
+          else ()
+         
+      in 
+        (preference,maybeProfile)
+      end
+
+    fun clientBob serverid =
+      let 
+         val lev = `{clark}`
+         val name = "Clark"  raisedTo lev
+         val year = 2105 raisedTo lev
+         val gender = false raisedTo lev
+         val interests = ["dragons", "wars", "fire"] raisedTo lev
+         val profile = (lev,name,year,gender,interests)
+         val _ = send(serverid,("NEWPROFILE",(profile,agent,self())))
+         val _ = print "SENT"
+      in loop()
+      end
+   val serverid = whereis("QmNzXPVyMYojkfP8JjVqwy4NWbqYyovThEk3bkK4t4Ny6a","datingServer")
+in spawn (fn() => clientBob serverid)
+end

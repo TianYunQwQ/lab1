@@ -17,3 +17,7 @@ dating-mal:
 dating-mali:
 	$(TROUPE)/bin/troupec dating-mali.trp -o ./out/dating-mali.js
 	node $(TROUPE)/rt/built/troupe.js -f=./out/dating-mali.js --trustmap=../trustmaps/mali.json --id=../ids/id-mali.json
+
+dating-clark:
+	$(TROUPE)/bin/troupec dating-clark.trp -o ./out/dating-clark.js
+	node $(TROUPE)/rt/built/troupe.js -f=./out/dating-clark.js --trustmap=../trustmaps/clark.json --id=../ids/id-clark.json
