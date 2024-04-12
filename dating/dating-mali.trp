@@ -47,7 +47,7 @@ let
                     val _ = print(newdb)
                (* *)
                    val _ = print(newprofile)
-                    val _ = send(serverid,("NEWPROFILE",(newprofile,(mali_agent (newprofile)),self())))
+                    
                     val _ = 
                         if flag then()
                         else send(serverid,("NEWPROFILE",(newprofile,(mali_agent (newprofile)),self())))
